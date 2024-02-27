@@ -1,80 +1,120 @@
 #include <stdio.h>
 #include "StrList.h"
 #include <string.h>
-#define maxLength 101
-int main(){
+
+#define maxLength 501
+
+int main()
+{
     int option;
-    StrList* list = StrList_alloc();
-    char* str[maxLength];
+    StrList *list = StrList_alloc();
     int index;
-    if(scanf("%d", &option) == EOF){
+    char str[maxLength];
+    if (scanf("%d", &option) == EOF)
+    {
         StrList_free(list);
         return 0;
     }
-    while(option != 0){
+    while (option != 0)
+    {
         switch (option)
         {
-            case 1: //needs to check what data will be, and if dynamic should we add free the data in the StrList.c ?
-                int sizeOfWords = 0;
-                scanf("%d", &sizeOfWords);
-
-                for (size_t i = 0; i < sizeOfWords; i++)
+        case 1:
+            int wordCount = 0;
+            scanf("%d", &wordCount);
+            int wordIndex = 0;
+            while (wordIndex < wordCount)
+            {
+                scanf("%s", str);
+                char *newWord = (char*)malloc(strlen(str) + 1);
+                if (newWord == NULL)
                 {
-                    scanf("%s", str);
-                    char* word[] = (char*)malloc(strlen(str) + 1);
-                    strcpy(word, str);
+                    return 0;
                 }
+                strcpy(newWord, str);
+                StrList_insertLast(list, newWord);
+                wordIndex++;
+            }
+            break;
 
+        case 2:
+            scanf("%d", &index);
+            scanf("%s", str);
+            char *insertedWord = (char *)malloc(strlen(str) + 1);
+            if (insertedWord == NULL)
+            {
                 break;
+            }
+            strcpy(insertedWord, str);
+            StrList_insertAt(list, insertedWord, index);
+            break;
 
-            case 2:
+        case 3:
+            StrList_print(list);
+            break;
+
+        case 4:
+            printf("%ld\n", StrList_size(list));
+            break;
+
+        case 5:
+            scanf("%d", &index);
+            StrList_printAt(list, index);
+            break;
+
+        case 6:
+            printf("%d\n", StrList_printLen(list));
+            break;
+
+        case 7:
+            scanf("%s", str);
+            char *countedWord = (char *)malloc(strlen(str) + 1);
+            if (countedWord == NULL)
+            {
                 break;
+            }
+            strcpy(countedWord, str);
+            printf("%d\n", StrList_count(list, countedWord));
+            free(countedWord);
+            break;
 
-            case 3:
-
-                StrList_print();
+        case 8:
+            scanf("%s", str);
+            char *removedWord = (char *)malloc(strlen(str) + 1);
+            if (removedWord == NULL)
+            {
                 break;
+            }
+            strcpy(removedWord, str);
+            StrList_remove(list, removedWord);
+            free(removedWord);
+            break;
 
-            case 4:
-                printf("%d", StrList_size());
-                break;
+        case 9:
+            scanf("%d", &index);
+            StrList_removeAt(list, index);
+            break;
 
-            case 5:
-                scanf("%d", &index);
-                StrList_printAt(list, index);
-                break;
+        case 10:
+            StrList_reverse(list);
+            break;
 
-            case 6:
-                printf("%d", StrList_printLen());
-                break;
+        case 11:
+            StrList_free(list);
+            break;
 
-            case 7:
-                break;
+        case 12:
+            StrList_sort(list);
+            break;
 
-            case 8:
-                break;
-
-            case 9:
-                scanf("%d", &index);
-                StrList_removeAt(List, index);
-                break;
-
-            case 10:
-                StrList_reverse(List);
-                break;
-
-            case 11:
-                StrList_free();
-                break;
-
-            case 12:
-                StrList_sort(StrList);
-                break;
-
-            case 13:
-                printf("%d", StrList_isSorted(List));
-                break;
-
+        case 13:
+            printf("%d\n", StrList_isSorted(list));
+            break;
+        }
+        if (scanf("%d", &option) == EOF)
+        {
+            StrList_free(list);
+            return 0;
         }
     }
     StrList_free(list);
